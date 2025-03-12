@@ -22,13 +22,6 @@ const routeManifest = {
       ],
     },
   ],
-  __auth: [
-    './routes/[auth]/__layout.tsx', // layout (has `<Outlet />`, no index)
-    {
-      login: './routes/[auth]/login.tsx', // leaf
-      register: './routes/[auth]/register.tsx', // root
-    },
-  ],
   wiki: {
     // prefix segment, no layout
     _$lang_: {
@@ -37,6 +30,13 @@ const routeManifest = {
       $: './routes/wiki/(lang)/$.tsx', // splat
     },
   },
+  __auth: [
+    './routes/[auth]/__layout.tsx', // layout (has `<Outlet />`, no index)
+    {
+      login: './routes/[auth]/login.tsx', // leaf
+      register: './routes/[auth]/register.tsx', // root
+    },
+  ],
 }
 ```
 
@@ -78,6 +78,33 @@ const routeManifest = {
   }],
   wiki: { _$lang_: { search: true, $: true }},
   __auth: [true, { login: true, register: true }],
+}
+```
+
+## `routeManifest` Collapsed Syntax With Explicit Default File Paths
+
+```js
+// prettier-ignore
+const routeManifest = {
+  _: './routes/_index.tsx',
+  about: './routes/about.tsx',
+  post: [ './routes/post/__root.tsx', {
+    new: './routes/post/new.tsx',
+    $postId: [ './routes/post/$postId/__root.tsx', {
+      _: './routes/post/$postId/_index.tsx',
+      edit: './routes/post/$postId/edit.tsx',
+    }, {
+      delete: './routes/post/$postId/^delete.tsx',
+    }],
+  }],
+  __auth: [ './routes/[auth]/__layout.tsx', {
+    login: './routes/[auth]/login.tsx',
+    register: './routes/[auth]/register.tsx',
+  }],
+  wiki: { _$lang_: {
+    search: './routes/wiki/(lang)/search.tsx',
+    $: './routes/wiki/(lang)/$.tsx',
+  }},
 }
 ```
 
@@ -147,3 +174,11 @@ export default function List() {
   )
 }
 ```
+
+## ChatGPT
+
+Let's talk about my new project I am tentatively calling "make-react-router-config". With your recent regex answers you are helping me to design a new convention for route modules in a React Router v7 (framework) project. I abbreviate the framwork name as "RRv7". I'll explain what I'm doing and ask for your observations about it.
+
+---
+
+I have written example code that takes into account all of the routing and layout nesting options in RRv7. The concept is a video game fandom website with user accounts, simple posts by users, and a wiki of information about the game. The standard way to configure the routing is in the `@/app/routes.ts` file, which exports (as the default) an array I will call `routeConfig`. In the array, function calls are used to register each route in the project and assign a route module file to handle it.

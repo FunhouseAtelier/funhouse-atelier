@@ -6,9 +6,11 @@
     "build": "react-router build",
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc"
+    "typecheck": "react-router typegen && tsc",
+    "mrc": "node ./scripts/make-route-config.js"
   },
   "dependencies": {
+    "@funhouse-atelier/logger": "^1.0.1",
     "@react-router/node": "^7.2.0",
     "@react-router/serve": "^7.2.0",
     "isbot": "^5.1.17",
