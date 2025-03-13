@@ -97,14 +97,14 @@ const routeManifest = {
       delete: './routes/post/$postId/^delete.tsx',
     }],
   }],
-  __auth: [ './routes/[auth]/__layout.tsx', {
-    login: './routes/[auth]/login.tsx',
-    register: './routes/[auth]/register.tsx',
-  }],
   wiki: { _$lang_: {
     search: './routes/wiki/(lang)/search.tsx',
     $: './routes/wiki/(lang)/$.tsx',
   }},
+    __auth: [ './routes/[auth]/__layout.tsx', {
+    login: './routes/[auth]/login.tsx',
+    register: './routes/[auth]/register.tsx',
+  }],
 }
 ```
 
@@ -181,4 +181,26 @@ Let's talk about my new project I am tentatively calling "make-react-router-conf
 
 ---
 
-I have written example code that takes into account all of the routing and layout nesting options in RRv7. The concept is a video game fandom website with user accounts, simple posts by users, and a wiki of information about the game. The standard way to configure the routing is in the `@/app/routes.ts` file, which exports (as the default) an array I will call `routeConfig`. In the array, function calls are used to register each route in the project and assign a route module file to handle it.
+I have written example code that takes into account all of the routing and layout nesting options in the RRv7 docs. The concept is a video game fandom website with user accounts, simple posts by users, and a wiki of information about the game. The standard way to configure the routing is in the `@/app/routes.ts` file, which exports (as the default) an array I will call `routeConfig`. In the array, function calls are used to register each route in the project and assign a route module file to handle requests to that route.
+
+Doing it the default React Router way, the syntax would be:
+
+The problem with that syntax is it is not very human-readable, and overly complicated to write. My solution is to allow all routes to be defined in a `routeManifest` object, with simple naming conventions to signify nuances like shared layouts and optional route segments.
+
+What I've decided upon is that the React Router syntax in the fenced code block above can be written this way:
+
+This is much more human-readable, and if a developer chooses to opt in to what I have decided are default route module file paths and names, then the filenames don't need to be explicity written, a boolean value of `true` will indicate "use the default filepath":
+
+I am now writing a function named `makeRouteConfig`. It takes a `routeManifest` as the primary argument, and there is an optional `options` argument, a typical object of settings. The function logic converts the manifest into a `routeConfig` array React Router expects.
+
+What do you think of this concept?
+
+---
+
+Hey, that's a nice bit of advice about how to pass multiple arguments to `JSON.stringify()` for formatting. We'll talk more about that in another thread, because it could be a nice addition to my custom logger (NPM package `@funhouse-atelier/logger`, or `@funhouse-atelier/logger-cjs` for CommonJS compatibility).
+
+
+
+Here's a really good example of how to properly leverage an AI Assistant to accomplish a somewhat complicated coding task. This is my chat log with ChatGPT about the `makeRouteConfig` idea:
+
+https://chatgpt.com/share/67d29a39-9ed8-8002-aee8-d81fb858132e

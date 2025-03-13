@@ -13,7 +13,7 @@ const regexByKeyPattern = {
   splat: /^\$$/,
 }
 
-const regexForValidPattern = new RegExp(
+const regexForValidKey = new RegExp(
   Object.values(regexByKeyPattern)
     .map((regex) => regex.source)
     .join('|')
@@ -36,7 +36,7 @@ const routeManifest = {
     }, {
       delete: './routes/post/$postId/^delete.tsx',
     }],
-    _$postId_: true, // error test: duplicate optional dynamic
+    // _$postId_: true, // error test: duplicate optional dynamic
   }],
   __auth: [ './routes/[auth]/__layout.tsx', {
     login: './routes/[auth]/login.tsx',
@@ -50,11 +50,52 @@ const routeManifest = {
   // _post_: true, // error test: duplicate optional static
 }
 
-export function makeRouteConfig(manifest, options) {
+const processManifestObject = (manifestObject, options) => {
+  log.info('processManifestObject() called')
+
+  log.debug('manifestObject =', manifestObject)
+  log.debug('options =', options)
+  const { context } = options
+
+  const routeConfig = []
+  const routeConfigReport = ''
+  const flatRouteReport = ''
+  const filesystemReport = ''
+  const keysByPattern = {
+    layout: [],
+    index: [],
+    staticRoute: [],
+    dynamicRoute: [],
+    staticOptional: [],
+    dynamicOptional: [],
+    splat: [],
+  }
+
+  const rootKeys = Object.keys(manifest)
+  log.debug('rootKeys =', rootKeys)
+
+  try {
+    rootKeys.forEach((key) => {
+      // check validity of key
+      if (!regexForValidKey.test(key)) throw `invalid key: "${key}"`
+
+      // categorize keys that cannot have duplicate conflicts
+      singletonPatterns.forEach((pattern) => {
+        if (regexByKeyPattern[pattern].test(key))
+          keysByPattern[pattern].push(key)
+      })
+    })
+  } catch (e) {
+    //
+  }
+}
+
+export default function makeRouteConfig(manifest, options) {
   log.info('makeRouteConfig() called')
   log.debug('manifest =', manifest)
   const routeConfig = []
-  const rootKeysByPattern = {
+  const routeConfigText = '[\n'
+  const keysByPattern = {
     layout: [],
     index: [],
     staticRoute: [],
@@ -68,26 +109,26 @@ export function makeRouteConfig(manifest, options) {
   try {
     rootKeys.forEach((key) => {
       // check validity of key
-      if (!regexForValidPattern.test(key))
+      if (!regexForValidKey.test(key))
         throw `invalid key in route manifest: "${key}"`
 
       // categorize keys that cannot have duplicates
       singletonPatterns.forEach((pattern) => {
         if (regexByKeyPattern[pattern].test(key))
-          rootKeysByPattern[pattern].push(key)
+          keysByPattern[pattern].push(key)
       })
 
       // categorize keys for standard routes
       routePatterns.forEach((pattern) => {
         if (regexByKeyPattern[pattern].test(key)) {
           const modality = pattern.split('Route')[0]
-          const isDuplicate = rootKeysByPattern[modality + 'Optional'].includes(
+          const isDuplicate = keysByPattern[modality + 'Optional'].includes(
             '_' + key + '_'
           )
           if (isDuplicate) {
             throw `conflicting mandatory and optional routes using the same ${modality} name: "${key}"`
           }
-          rootKeysByPattern[pattern].push(key)
+          keysByPattern[pattern].push(key)
         }
       })
 
@@ -97,31 +138,36 @@ export function makeRouteConfig(manifest, options) {
           const modality = pattern.split('Optional')[0]
           const baseName = key.slice(1, -1)
           const isDuplicate =
-            rootKeysByPattern[modality + 'Route'].includes(baseName)
+            keysByPattern[modality + 'Route'].includes(baseName)
           if (isDuplicate) {
             throw `conflicting optional and mandatory routes using the same ${modality} name: "${baseName}"`
           }
-          rootKeysByPattern[pattern].push(key)
+          keysByPattern[pattern].push(key)
         }
       })
     })
-    log.debug('rootKeysByCategory =', rootKeysByPattern)
+    log.debug('rootKeysByCategory =', keysByPattern)
 
+    const indentPrefix = '  '
+    const defaultFilepathPrefix = './routes/'
     // register any leaves
     // - index
-    if (rootKeysByPattern.index.length) {
-      routeConfig.push(`  index("./routes/_index.tsx"),`)
+    if (keysByPattern.index[0]) {
+      const value = manifest[keysByPattern.index[0]]
+      const filepath =
+        value === true ? defaultFilepathPrefix + '_index.tsx' : value
+      routeConfigText += `${indentPrefix}index("${filepath}"),\n`
     }
 
     // - static
-    rootKeysByPattern.staticRoute.forEach((key) => {
+    keysByPattern.staticRoute.forEach((key) => {
       if (manifest[key] === true || typeof manifest[key] === 'string') {
         routeConfig.push(`  route("${key}", "./routes/${key}.tsx"),`)
       }
     })
 
     // - dynamic
-    rootKeysByPattern.dynamicRoute.forEach((key) => {
+    keysByPattern.dynamicRoute.forEach((key) => {
       if (manifest[key] === true || typeof manifest[key] === 'string') {
         const baseName = key.slice(1)
         routeConfig.push(`  route(":${baseName}", "./routes/${key}.tsx"),`)
@@ -130,7 +176,7 @@ export function makeRouteConfig(manifest, options) {
 
     // register any branches
     // - static
-    rootKeysByPattern.staticRoute.forEach((key) => {
+    keysByPattern.staticRoute.forEach((key) => {
       if (Array.isArray(manifest[key])) {
         // route
         routeConfig.push(`  route("${key}", "./routes/${key}/__root.tsx", [`)
@@ -147,7 +193,7 @@ export function makeRouteConfig(manifest, options) {
     })
 
     // - dynamic
-    rootKeysByPattern.dynamicRoute.forEach((key) => {
+    keysByPattern.dynamicRoute.forEach((key) => {
       const baseName = key.slice(1)
       if (Array.isArray(manifest[key])) {
         // route
@@ -167,9 +213,18 @@ export function makeRouteConfig(manifest, options) {
     })
 
     // register any optionals
+    // - static
+    keysByPattern.staticOptional.forEach((key) => {
+      // TODO: process children
+    })
+
+    // - dynamic
+    keysByPattern.dynamicOptional.forEach((key) => {
+      // TODO: process children
+    })
 
     // register any layouts
-    rootKeysByPattern.layout.forEach((key) => {
+    keysByPattern.layout.forEach((key) => {
       const baseName = key.slice(2)
       if (Array.isArray(manifest[key])) {
         // route
@@ -182,6 +237,13 @@ export function makeRouteConfig(manifest, options) {
     })
 
     // register any splats
+    keysByPattern.splat.forEach((key) => {
+      if (manifest[key] === true || typeof manifest[key] === 'string') {
+        routeConfig.push(`  route("*", "./routes/$.tsx"),`)
+      } else {
+        // TODO: handle error
+      }
+    })
   } catch (e) {
     log.error('÷÷÷÷÷ ' + e + ' ÷÷÷÷÷')
   }
