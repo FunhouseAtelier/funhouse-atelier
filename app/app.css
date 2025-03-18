@@ -1,13 +1,78 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --color-navy: #01172d;
+  --color-navy-100: #000509;
+  --color-navy-200: #000912;
+  --color-navy-300: #010e1b;
+  --color-navy-400: #011224;
+  --color-navy-500: #01172d;
+  --color-navy-600: #034588;
+  --color-navy-700: #0574e3;
+  --color-navy-800: #49a2fb;
+  --color-navy-900: #a4d1fd;
+
+  --color-tan: #a17d51;
+  --color-tan-100: #201910;
+  --color-tan-200: #403220;
+  --color-tan-300: #604a30;
+  --color-tan-400: #806340;
+  --color-tan-500: #a17d51;
+  --color-tan-600: #b7966f;
+  --color-tan-700: #c9b193;
+  --color-tan-800: #dbcbb7;
+  --color-tan-900: #ede5db;
+
+  --color-beige: #feeec2;
+  --color-beige-100: #584101;
+  --color-beige-200: #b18203;
+  --color-beige-300: #fbbd12;
+  --color-beige-400: #fdd66a;
+  --color-beige-500: #feeec2;
+  --color-beige-600: #fef2cf;
+  --color-beige-700: #fef5db;
+  --color-beige-800: #fff8e7;
+  --color-beige-900: #fffcf3;
+
+  --color-gold: #fca401;
+  --color-gold-100: #332100;
+  --color-gold-200: #654201;
+  --color-gold-300: #986301;
+  --color-gold-400: #cb8401;
+  --color-gold-500: #fca401;
+  --color-gold-600: #feb734;
+  --color-gold-700: #fec967;
+  --color-gold-800: #fedb9a;
+  --color-gold-900: #ffedcc;
+
+  --color-fire: #f21701;
+  --color-fire-100: #310400;
+  --color-fire-200: #610900;
+  --color-fire-300: #920d01;
+  --color-fire-400: #c31101;
+  --color-fire-500: #f21701;
+  --color-fire-600: #fe3d2c;
+  --color-fire-700: #fe6e61;
+  --color-fire-800: #fe9e95;
+  --color-fire-900: #ffcfca;
+
+  --color-grape: #820263;
+  --color-grape-100: #1a0014;
+  --color-grape-200: #340127;
+  --color-grape-300: #4e013b;
+  --color-grape-400: #68024f;
+  --color-grape-500: #820263;
+  --color-grape-600: #cd039a;
+  --color-grape-700: #fc20c5;
+  --color-grape-800: #fd6ad8;
+  --color-grape-900: #feb5ec;
 }
 
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
+  @apply bg-beige text-navy dark:bg-navy dark:text-beige;
 
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
