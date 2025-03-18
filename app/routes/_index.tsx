@@ -1,3 +1,5 @@
+import { Link } from 'react-router'
+
 export default function Index() {
   return (
     <div className="min-w-screen min-h-screen flex flex-col items-center justify-center">
@@ -9,12 +11,13 @@ export default function Index() {
         height="512"
         className="my-8 rounded-full border-8 border-tan"
       />
-      <a
-        href="/demo"
+      <Link
+        to="/demo"
+        prefetch="render"
         className="text-lg font-semibold bg-grape text-white px-4 py-2 rounded-lg"
       >
         Demonstrations
-      </a>
+      </Link>
     </div>
   )
 }

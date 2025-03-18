@@ -15,3 +15,6 @@
 - integrated custom brand color palette with Tailwind and set default background/text combinations for both light (default) and dark modes, according to browser settings
 - set home page to show centered full logo with welcome heading and button for demo route
 - stubbed-out demo route
+- made home page link to demo route client-side navigation with prefetch on render
+- stubbed out colors and routes demos
+- fixed custom brand color palette integration with Tailwind (Coolers.co convention is higher shading numbers for lighter colors, but Tailwind uses higher numbers for darker colors)
