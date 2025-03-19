@@ -4,7 +4,7 @@ export default function DemoIndex() {
   return (
     <div className="p-4 flex flex-col gap-6">
       <Link
-        to="/demo/colors"
+        to="/demo/color"
         prefetch="render"
         className={`
             text-5xl font-semibold

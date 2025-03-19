@@ -3,6 +3,7 @@
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
   --color-navy: #01172d;
   --color-navy-100: #a4d1fd;
   --color-navy-200: #49a2fb;
@@ -68,6 +69,29 @@
   --color-grape-700: #4e013b;
   --color-grape-800: #340127;
   --color-grape-900: #1a0014;
+
+  --color-red: oklch(0.637 0.237 25.331);
+  --color-orange: oklch(0.705 0.213 47.604);
+  --color-amber: oklch(0.769 0.188 70.08);
+  --color-yellow: oklch(0.795 0.184 86.047);
+  --color-lime: oklch(0.768 0.233 130.85);
+  --color-green: oklch(0.723 0.219 149.579);
+  --color-emerald: oklch(0.696 0.17 162.48);
+  --color-teal: oklch(0.704 0.14 182.503);
+  --color-cyan: oklch(0.715 0.143 215.221);
+  --color-sky: oklch(0.685 0.169 237.323);
+  --color-blue: oklch(0.623 0.214 259.815);
+  --color-indigo: oklch(0.585 0.233 277.117);
+  --color-violet: oklch(0.606 0.25 292.717);
+  --color-purple: oklch(0.627 0.265 303.9);
+  --color-fuchsia: oklch(0.667 0.295 322.15);
+  --color-pink: oklch(0.656 0.241 354.308);
+  --color-rose: oklch(0.645 0.246 16.439);
+  --color-slate: oklch(0.554 0.046 257.417);
+  --color-gray: oklch(0.551 0.027 264.364);
+  --color-zinc: oklch(0.552 0.016 285.938);
+  --color-neutral: oklch(0.556 0 0);
+  --color-stone: oklch(0.553 0.013 58.071);
 }
 
 html,
