@@ -30,19 +30,11 @@ grape
 
 ### Tailwind Default Color Palette Names
 
-- black (no shading levels)
-- stone
-- neutral
-- zinc
-- gray
-- slate
-- white (no shading levels)
-
 - red
 - orange
 - amber
 - yellow
-- line
+- lime
 - green
 - emerald
 - teal
@@ -54,6 +46,14 @@ grape
 - purple
 - fuchsia
 - pink
+- rose
+- slate
+- gray
+- zinc
+- neutral
+- stone
+- black
+- white
 
 ### Coolors.co Code
 

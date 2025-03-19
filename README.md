@@ -2,6 +2,11 @@
 
 ## Changelog
 
+## 2025-03-19
+
+- revised link styling
+- created colors demo page
+
 ## 2025-03-18
 
 - installed `@funhouse-atelier/logger` dependency for custom logging

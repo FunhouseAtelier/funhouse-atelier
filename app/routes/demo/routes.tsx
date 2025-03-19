@@ -2,17 +2,28 @@ import { Link } from 'react-router'
 
 export default function DemoRoutes() {
   return (
-    <div className="p-4 flex flex-col gap-6">
-      <div>
-        <Link
-          to="/demo"
-          prefetch="render"
-          className="text-lg font-semibold text-grape-400"
-        >
-          ← Demo Index
-        </Link>
-      </div>
-      <h2 className="text-2xl">Routes</h2>
+    <div className="p-4">
+      <Link
+        to="/demo"
+        prefetch="render"
+        className={`
+            text-2xl font-semibold
+            hover:underline
+            text-grape
+            dark:text-gold
+          `}
+      >
+        ← Demo Index
+      </Link>
+
+      <h2
+        className={`
+          my-2
+          text-5xl font-bold
+        `}
+      >
+        Routes
+      </h2>
     </div>
   )
 }
