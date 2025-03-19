@@ -46,7 +46,7 @@ export default function DemoColors() {
             >
               <div className="flex items-center gap-x-4">
                 <div
-                  className={`h-12 w-12 rounded-md border-2 border-black dark:border-white ${tw.bg[color][500][100]}`}
+                  className={`h-12 w-12 rounded-full border-2 border-black dark:border-white ${tw.bg[color][500][100]}`}
                 ></div>
                 <h4
                   className={`
@@ -97,7 +97,7 @@ export default function DemoColors() {
             >
               <div className="flex items-center gap-x-4">
                 <div
-                  className={`h-12 w-12 rounded-md border-2 ${
+                  className={`h-12 w-12 rounded-full border-2 ${
                     isBlackOrWhite
                       ? `border-neutral-500 ${tw.bg[color][100]}`
                       : `border-black dark:border-white ${tw.bg[color][500][100]}`
@@ -125,7 +125,6 @@ export default function DemoColors() {
                         className={`
                         h-6
                         text-center
-                        ${shade === '500' ? 'font-bold' : ''}
                       `.trim()}
                       >
                         {shade}
@@ -142,3 +141,5 @@ export default function DemoColors() {
     </div>
   )
 }
+
+const what = '?'
